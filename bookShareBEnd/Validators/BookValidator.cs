@@ -1,0 +1,37 @@
+﻿using bookShareBEnd.Database.DTO;
+using bookShareBEnd.Database.Model;
+using FluentValidation;
+using System.Data;
+
+namespace bookShareBEnd.Validators
+{
+    public class BookValidator : AbstractValidator<BookDTO>
+    {
+        public BookValidator()
+        {
+            RuleFor(books => books.Title)
+              .NotEmpty();
+
+            RuleFor(books => books.Cover)
+                .NotEmpty()
+                .When(books => !string.IsNullOrEmpty(books.Cover)); // Only validate Cover further if it's not empty
+
+            RuleFor(books => books.Author)
+                .NotEmpty();
+
+            RuleFor(books => books.YearPublished)
+                .NotEmpty()
+
+                .GreaterThan(0) // Assuming YearPublished cannot be negative
+                ;
+
+            RuleFor(books => books.UserId)
+                .NotEmpty();
+
+            RuleFor(books => books.Description)
+                .NotEmpty()
+                .MaximumLength(500); // Assuming a maximum length for the description
+        }
+
+    }
+}
