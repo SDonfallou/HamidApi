@@ -53,6 +53,17 @@ namespace bookShareBEnd
 
             services.AddSingleton(Configuration);
 
+            // Add CORS services
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .AllowAnyOrigin() // You can restrict this to specific origins if needed
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
+
             // confirgure DBcontext with SQL         
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
@@ -85,6 +96,8 @@ namespace bookShareBEnd
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bookshare v1"));
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
 
