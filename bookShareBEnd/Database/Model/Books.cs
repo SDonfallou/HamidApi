@@ -14,6 +14,10 @@
 
         public String Description { get; set; }
 
+        public string Category { get; set; }
+
+        public int Likes { get; set; }
+
         public Guid UserId { get; set; }
 
     }

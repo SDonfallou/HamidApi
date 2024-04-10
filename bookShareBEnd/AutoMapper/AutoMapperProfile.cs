@@ -11,6 +11,7 @@ namespace bookShareBEnd.AutoMapper
             CreateMap<Users, UserDTO>().ReverseMap();
             CreateMap<Books, BookDTO>().ReverseMap();
             CreateMap<Roles,RolesDTO>().ReverseMap();
+            CreateMap<BookLoan, BookLoanDTO>().ReverseMap();    
 
         }
     }

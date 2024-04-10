@@ -3,6 +3,7 @@ using bookShareBEnd.Database.Model;
 using bookShareBEnd.Database;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace bookShareBEnd.Services
 {
@@ -18,7 +19,12 @@ namespace bookShareBEnd.Services
 
         public UserDTO UpdateUserById(Guid userId, [FromBody] UserDTO user)
         {
+           
             var userNew = _context.users.FirstOrDefault(x => x.UserId == userId);
+            if (userNew == null)
+            {
+                throw new Exception("User is not validate");
+            }
             if (user is not null)
             {
                 _mapper.Map(user, userNew);
@@ -34,6 +40,7 @@ namespace bookShareBEnd.Services
         }
         public List<UserDTO> GetAllUsers()
         {
+           
             var users = _context.users.ToList();
             var usersDTO = _mapper.Map<List<UserDTO>>(users);
             return usersDTO;
@@ -44,14 +51,41 @@ namespace bookShareBEnd.Services
             return user;
         }
 
-        public void AddUser([FromBody] UserDTO user)
+        public async Task AddUser([FromBody] UserDTO user)
         {
-         
-            var _user = _mapper.Map<UserDTO,Users>(user);
+            var _user = _mapper.Map<UserDTO, Users>(user);
+
+            // Retrieve the list of roles from the database
+            var roles = await _context.roles.ToListAsync();
+
+            var email = user.Email.Trim().ToLower();
+
+            if(_context.users.Any(x => x.Email.Equals(email)))
+            {
+                throw new Exception("Email is already in use");
+            }
+
+            // Validate the provided role ID
+            var isValidRoleId = roles.Any(role => role.Id == _user.RoleId);
+            if (!isValidRoleId || roles == null || !roles.Any())
+            {
+                throw new Exception("Role ID is not valid");
+            }
+
+            // Hash the password
             _user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
+            // Add the user to the context
             _context.users.Add(_user);
-            _context.SaveChanges();
+
+            // Save changes
+            await _context.SaveChangesAsync();
         }
+
+        //public async task<list<likesdto>> getalllikesbyuser(guid userid)
+        //{
+
+        //}
 
 
         public void DeleteUserById(Guid id)

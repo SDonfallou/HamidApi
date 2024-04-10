@@ -3,6 +3,8 @@ using bookShareBEnd.Database.DTO;
 using bookShareBEnd.Database.Model;
 using bookShareBEnd.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,13 +33,16 @@ namespace bookShareBEnd.Controllers
         }
 
         [HttpGet("Get-book-byId/{BookID}")]
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult GetBookByID(Guid BookId)
         {
+
             var book = _bookservices.GetBookById(BookId);
             return Ok(book);
         }
 
         [HttpPost("Add-book")]
+        [Authorize(Policy = "UserPolicy")]
         public async  Task<IActionResult> AddBook([FromBody]BookDTO bookDTO)
         {
             var validationResult = await _validator.ValidateAsync(bookDTO);
@@ -53,6 +58,7 @@ namespace bookShareBEnd.Controllers
         }
 
         [HttpPut("Update-book")]
+        [Authorize(Policy = "UserPolicy")]
         public  IActionResult UpdateBookbyID(Guid bookId, [FromBody]BookDTO bookDTO)
         {
             var validationResult =  _validator.Validate(bookDTO);
@@ -67,6 +73,7 @@ namespace bookShareBEnd.Controllers
 
 
         [HttpPost("Add-Or-Update/{BookID}")] // Syncro with Add And Update Methode
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult AddOrUpdate(Guid? BookId, [FromBody]BookDTO book)
         {
             if (!ModelState.IsValid)
@@ -102,6 +109,35 @@ namespace bookShareBEnd.Controllers
 
         }
 
+        [HttpGet("GetAllBooksLoaned")]
+        public async Task<IActionResult> GetAllBooksLoaned()
+        {
+            await _bookservices.GetAllLoansBook();
+            return Ok();
+        }
+
+        [HttpPost("takeLoanBook{userId}")]
+        public async Task<IActionResult> TakeLoanBook(Guid userid, Guid BookId)
+        {
+            
+
+            await _bookservices.LoanBookToUser(userid, BookId);
+            return Ok();
+        }
+
+        [HttpGet("GetUserLoans{userId}")]
+        public async Task<IActionResult> GetUserLoans(Guid userId)
+        {
+            return null;
+        }
+
+
+        [HttpDelete("DeleteBookLoaned/{BookLoanedId}")]
+        public async Task<IActionResult> DeleteBookLoaned(Guid BookLoanedID)
+        {
+            await _bookservices.DeleteLoan(BookLoanedID);
+            return Ok();
+        }
 
         [HttpDelete("Delete-book/{bookId}")]
         public async Task<IActionResult> DeleteBookByID(Guid BookId)

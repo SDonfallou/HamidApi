@@ -14,7 +14,10 @@ namespace bookShareBEnd.Database
             _configuration = configuration;
         }
         public DbSet<Users> users { get; set; }
+        public DbSet<Roles> roles { get; set; }
         public DbSet<Books> books { get; set; }
+        public DbSet<BookLoan> bookLoan { get; set; }
+        public DbSet<Likes> likes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

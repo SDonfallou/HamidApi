@@ -53,6 +53,12 @@ namespace bookShareBEnd
 
             services.AddSingleton(Configuration);
 
+            // Adding authorization policies
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserPolicy", policy => policy.RequireClaim("role", "User"));
+                options.AddPolicy("AdminPolicy", policy => policy.RequireClaim("role", "Admin"));
+            });
             // Add CORS services
             services.AddCors(options =>
             {

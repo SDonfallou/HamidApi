@@ -12,4 +12,10 @@ namespace bookShareBEnd.Database.DTO
         public Guid RoleId { get; set; }
 
     }
+    public class UserLoansDTO
+    {
+        public Guid UserId { get; set; }
+        public string UserName { get; set; }
+        public List<BookLoanDTO> Loans { get; set; }
+    }
 }
