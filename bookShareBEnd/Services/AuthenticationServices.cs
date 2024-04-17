@@ -1,4 +1,5 @@
-﻿using bookShareBEnd.Database;
+﻿using BCrypt.Net;
+using bookShareBEnd.Database;
 using bookShareBEnd.Database.DTO;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,24 +17,26 @@ namespace bookShareBEnd.Services
             _configuration = configuration;
         }
 
-        public UserDTO Authentication(LoginDTO userLogin) 
+        public UserDTO Authentication(UserAuthDTO userLogin) 
         {
             var cryptedPassword = BCrypt.Net.BCrypt.HashPassword(userLogin.Password);
-            var user = _context.users.FirstOrDefault(u => u.UserName == userLogin.Username);
-           if (user is not  null) 
+            var user = _context.users.FirstOrDefault(u => u.Email == userLogin.Email);
+           if (user is  null)
+           {
+               throw new Exception("User doesn't exist");
+           }
+            if (! BCrypt.Net.BCrypt.Verify(userLogin.Password, user.Password))
             {
-              if (BCrypt.Net.BCrypt.Verify(userLogin.Password, user.Password))
-                {
-                    UserDTO authentificedUser = new UserDTO
-                    {
-                        UserName = user.UserName,
-                        Name = user.Name,
-                        Email = user.Email
-                    };
-                    return authentificedUser;
-                }
+                throw new Exception("incorrect password ");
             }
-            return null; // TO handle this exception
+            UserDTO authentificedUser = new UserDTO
+            {
+               
+                Name = user.Name,
+                Email = user.Email
+            };
+            return authentificedUser;
+           
         }
 
         public string Generate(UserDTO user)
@@ -52,7 +55,7 @@ namespace bookShareBEnd.Services
                               issuer: _configuration["Jwt:Issuer"],
                               audience: _configuration["Jwt:Audience"],
                               claims: claims,
-                              expires: DateTime.Now.AddMinutes(30), // Token expiration time
+                              expires: DateTime.Now.AddMinutes(50), // Token expiration time
                               signingCredentials: credentials
                          );
             var tokenHandler = new JwtSecurityTokenHandler();

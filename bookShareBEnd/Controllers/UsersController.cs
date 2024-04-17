@@ -11,8 +11,8 @@ namespace bookShareBEnd.Controllers
     {
         private UsersServices usersService;
         private AuthenticationServices _authenticationServices;
-        private IValidator<UserDTO> _validator;
-        public UsersController(UsersServices usersServices, AuthenticationServices authenticationServices,IValidator<UserDTO> validator)
+        private IValidator<UserAuthDTO> _validator;
+        public UsersController(UsersServices usersServices, AuthenticationServices authenticationServices,IValidator<UserAuthDTO> validator)
         {
             usersService = usersServices;
             _authenticationServices = authenticationServices;
@@ -27,11 +27,12 @@ namespace bookShareBEnd.Controllers
         }
 
         [HttpPost("add-user")] // custom api posso anche  cancellarlo
-        public async Task<IActionResult> AddUserAsync([FromBody] UserDTO user)
+        public async Task<IActionResult> AddUserAsync([FromBody]UserAuthDTO user)
         {
             // Validate the user using FluentValidation
 
             var validationResult = await _validator.ValidateAsync(user);
+
             if (!validationResult.IsValid)
             {
                 // If validation fails, return the validation errors
@@ -40,12 +41,12 @@ namespace bookShareBEnd.Controllers
             }
 
             // If the user is valid, add it using the service
-            usersService.AddUser(user);
+            await  usersService.AddUserAssigned(user);
             return Ok("User added successfully.");
         }
 
         [HttpPost("updateOrCreate-User")]
-        public IActionResult CreateOrUpdateUser(Guid? userId, [FromBody] UserDTO user)
+        public IActionResult CreateOrUpdateUser(Guid? userId, [FromBody]UserAuthDTO user)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +61,7 @@ namespace bookShareBEnd.Controllers
             // If userId is null, create a new user
             if (!userId.HasValue)
             {
-                usersService.AddUser(user);
+                usersService.AddUserAssigned(user);
                 return Ok("User created successfully.");
             }
             else
@@ -91,7 +92,7 @@ namespace bookShareBEnd.Controllers
         }
 
         [HttpPut("update-user-by-id/{userId}")] // posso anche cancellarlo
-        public async Task<IActionResult> UpdateUserByIdAsync(Guid userId, [FromBody] UserDTO user)
+        public async Task<IActionResult> UpdateUserByIdAsync(Guid userId, [FromBody] UserAuthDTO user)
         {
 
             var validationResult = await _validator.ValidateAsync(user);

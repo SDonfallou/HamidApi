@@ -8,8 +8,10 @@ namespace bookShareBEnd.Services
 {
     public class Bookservices
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
         private IMapper _mapper;
+        private readonly TimeSpan _debounceDelay = TimeSpan.FromSeconds(1);
+        private CancellationTokenSource _debounceCancellationTokenSource;
         public Bookservices(AppDbContext context, IMapper mapper)
         {
             _context = context;  
@@ -88,7 +90,50 @@ namespace bookShareBEnd.Services
             // Save changes to the database
             await _context.SaveChangesAsync();
         }
-    
+
+        public async Task<BookDTO> SearchBook(string searchTerm)
+        {
+            try
+            {
+                // Cancel the previous debounce task if it exists
+                _debounceCancellationTokenSource?.Cancel();
+
+                // Create a new cancellation token source for the debounce task
+                _debounceCancellationTokenSource = new CancellationTokenSource();
+
+                // Wait for the debounce delay
+                await Task.Delay(_debounceDelay, _debounceCancellationTokenSource.Token);
+
+                // Actual search logic here
+                var book = await SearchBooksAsync(searchTerm);
+
+                // If book is not found, return null
+                if (book == null) throw new Exception("User Doesn't Exist");
+                    
+                // Convert the Book entity to BookDTO
+                var bookDto = new BookDTO
+                {
+                    Title = book.Title,
+                    Author = book.Author,
+                    // Map other properties as needed
+                };
+
+                return bookDto;
+            }
+            catch (TaskCanceledException)
+            {
+                // The task was canceled due to debounce reset, return null
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception appropriately
+                Console.WriteLine($"Error searching for book: {ex.Message}");
+                throw;
+            }
+        }
+
+     
 
         public async Task<UserLoansDTO> GetUserLoans(Guid userId)
         {
@@ -97,7 +142,7 @@ namespace bookShareBEnd.Services
                 .Select(u => new UserLoansDTO
                 {
                     UserId = userId,
-                    UserName = u.UserName,
+                    Name = u.Name,
                     Loans = u.BookLoans.Select(b1 => new BookLoanDTO
                     {
                         LoanId = b1.LoanId,
@@ -131,6 +176,13 @@ namespace bookShareBEnd.Services
                 _context.books.Remove(book);
                 _context.SaveChanges();
             }
+        }
+        private async Task<BookDTO> SearchBooksAsync(string searchTerm)
+        {
+            var searchIndb = _context.books.FirstOrDefault(b => b.Title.Contains(searchTerm) || b.Author.Contains(searchTerm));
+            var search = _mapper.Map<BookDTO>(searchIndb);
+            return search;
+            
         }
 
 

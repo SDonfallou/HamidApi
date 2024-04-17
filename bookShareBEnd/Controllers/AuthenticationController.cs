@@ -20,14 +20,14 @@ namespace bookShareBEnd.Controllers
         private  readonly AppDbContext _context;
         private UsersServices _usersServices;
         private AuthenticationServices _authenticationServices;
-        private readonly IValidator<UserDTO> _validator;
+        private readonly IValidator<UserAuthDTO> _validator;
 
 
         public AuthenticationController(IConfiguration configuration,
                                          AppDbContext context,
                                          AuthenticationServices authenticationServices,
                                          UsersServices usersServices,
-                                         IValidator<UserDTO> validator)
+                                         IValidator<UserAuthDTO> validator)
         {
             _configuration = configuration;
             _context = context;
@@ -38,7 +38,7 @@ namespace bookShareBEnd.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] LoginDTO loginDTO)
+        public IActionResult Login([FromBody] UserAuthDTO loginDTO)
         {
             var user = _authenticationServices.Authentication(loginDTO);
             if (user is not  null) 
@@ -46,7 +46,7 @@ namespace bookShareBEnd.Controllers
               var token = _authenticationServices.Generate(user);
                 if (token is not null)
                 {
-
+                    throw new Exception("Not Valid Token ");
                 }
               return Ok(token);
             }
@@ -56,7 +56,7 @@ namespace bookShareBEnd.Controllers
 
         [AllowAnonymous]
         [HttpPost("Registration")]
-        public IActionResult Registration([FromBody]UserDTO userDTO)
+        public IActionResult Registration([FromBody] UserAuthDTO userDTO)
         {
             var validationResult = _validator.Validate(userDTO);
             if (!validationResult.IsValid)
@@ -64,7 +64,7 @@ namespace bookShareBEnd.Controllers
                 var errors = validationResult.Errors.Select(error => error.ErrorMessage);
                 return BadRequest(errors);
             }
-            _usersServices.AddUser(userDTO);
+          var userRegistred =  _usersServices.AddUserAssigned(userDTO);
             return Ok();
         }
 

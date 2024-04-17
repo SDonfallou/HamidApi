@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace bookShareBEnd.Validators
 {
-    public class UserValidator : AbstractValidator<UserDTO>
+    public class UserValidator : AbstractValidator<UserAuthDTO>
     {
         public UserValidator() 
         {
@@ -16,8 +16,7 @@ namespace bookShareBEnd.Validators
             RuleFor(user => user.Email)
                 .NotEmpty().WithMessage("Email is required")
                 .EmailAddress().WithMessage("Invalid email address");
-            RuleFor(user => user.RoleId)
-             .NotEmpty().WithMessage("RolesId is required");
+           
 
         }
 

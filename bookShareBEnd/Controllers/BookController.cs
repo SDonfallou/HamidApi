@@ -142,7 +142,7 @@ namespace bookShareBEnd.Controllers
         [HttpDelete("Delete-book/{bookId}")]
         public async Task<IActionResult> DeleteBookByID(Guid BookId)
         {
-           await _bookservices.GetBookById(BookId);
+            _bookservices.DeleteBook(BookId);
             return Ok();
         }
     }
