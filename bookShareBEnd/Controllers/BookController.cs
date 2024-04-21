@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace bookShareBEnd.Controllers
 {
@@ -25,7 +26,7 @@ namespace bookShareBEnd.Controllers
             _validator=validator;
         }
 
-        [HttpGet("Get-All-Books")]
+        [HttpGet("GetAllBooks")]
         public IActionResult GetAllBooks()
         {
             var allBooks = _bookservices.GetAllBooks();
@@ -41,7 +42,7 @@ namespace bookShareBEnd.Controllers
             return Ok(book);
         }
 
-        [HttpPost("Add-book")]
+        [HttpPost("AddBook")]
         [Authorize(Policy = "UserPolicy")]
         public async  Task<IActionResult> AddBook([FromBody]BookDTO bookDTO)
         {
@@ -57,7 +58,7 @@ namespace bookShareBEnd.Controllers
             return Ok("Book added successfully");
         }
 
-        [HttpPut("Update-book")]
+        [HttpPut("Admin/UpdateBook")]
         [Authorize(Policy = "UserPolicy")]
         public  IActionResult UpdateBookbyID(Guid bookId, [FromBody]BookDTO bookDTO)
         {
@@ -72,7 +73,7 @@ namespace bookShareBEnd.Controllers
         }
 
 
-        [HttpPost("Add-Or-Update/{BookID}")] // Syncro with Add And Update Methode
+        [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
         [Authorize(Policy = "UserPolicy")]
         public IActionResult AddOrUpdate(Guid? BookId, [FromBody]BookDTO book)
         {
@@ -100,16 +101,57 @@ namespace bookShareBEnd.Controllers
                 }
                var bookUpdated = _bookservices.UpdateBookByID(BookId.Value,book);
 
-                if(bookUpdated == null) 
-                {
-                    return BadRequest("Book not Found ");
-                }
+                
                 return Ok("Book updated successfully");    
             }
 
         }
 
-        [HttpGet("GetAllBooksLoaned")]
+        [HttpGet("UserBooks")]
+        public async Task<IActionResult> GetUserBooks()
+        {
+            var user = HttpContext.User;
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            var books = await _bookservices.GetListUserBook(user);
+
+            if (books == null)
+            {
+                throw new Exception("User doesn't have Book");
+            }
+            return Ok(books);
+
+        }
+
+
+        [HttpDelete("UserDeleteBook")]
+        public async Task<IActionResult> UserDeleteBook(Guid BookId)
+        {
+            var user = HttpContext.User;
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            await _bookservices.DeletebookUser(user, BookId);
+            return Ok();
+        }
+
+
+        [HttpGet("SearchBook")]
+        public async Task<IActionResult> SearchBook(string? searchItem)
+        {
+            if (searchItem == null)
+            {
+                throw new ArgumentNullException(nameof(searchItem));
+            }
+
+            await _bookservices.SearchBook(searchItem);
+            return Ok();
+        }
+
+        [HttpGet("Admin/GetAllBooksLoaned")]
         public async Task<IActionResult> GetAllBooksLoaned()
         {
             await _bookservices.GetAllLoansBook();
@@ -128,7 +170,7 @@ namespace bookShareBEnd.Controllers
         [HttpGet("GetUserLoans{userId}")]
         public async Task<IActionResult> GetUserLoans(Guid userId)
         {
-            return null;
+            return null; //TODO
         }
 
 
@@ -139,11 +181,26 @@ namespace bookShareBEnd.Controllers
             return Ok();
         }
 
-        [HttpDelete("Delete-book/{bookId}")]
+        [HttpDelete("Admin/Delete-book/{bookId}")]
         public async Task<IActionResult> DeleteBookByID(Guid BookId)
         {
-            _bookservices.DeleteBook(BookId);
+            var user = HttpContext.User;
+
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            // Check if the user is an admin
+            if (!user.IsInRole("Admin")) // Assuming role is stored as a claim named "role"
+            {
+                return BadRequest("Only admin users can delete books.");
+            }
+
+            // Await the asynchronous method call
+            await _bookservices.DeleteBook(BookId);
             return Ok();
         }
+
     }
 }

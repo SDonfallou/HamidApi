@@ -125,7 +125,7 @@ namespace bookShareBEnd.Services
 
 
 
-        public void DeleteUserById(Guid id)
+        public async Task  DeleteUserById(Guid id)
         {
                     var user = _context.users.FirstOrDefault(c => c.UserId == id);
 

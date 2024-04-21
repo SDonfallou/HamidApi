@@ -16,6 +16,8 @@
 
         public string Category { get; set; }
 
+        public string bookCity { get; set; }
+
         public int Likes { get; set; }
 
         public Guid UserId { get; set; }

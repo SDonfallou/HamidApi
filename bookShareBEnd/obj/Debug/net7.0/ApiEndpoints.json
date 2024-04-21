@@ -34,7 +34,7 @@
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "AddBook",
-    "RelativePath": "api/Book/Add-book",
+    "RelativePath": "api/Book/AddBook",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -50,7 +50,7 @@
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "AddOrUpdate",
-    "RelativePath": "api/Book/Add-Or-Update/{BookID}",
+    "RelativePath": "api/Book/Admin/AddOrUpdate/{BookID}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -71,7 +71,7 @@
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "DeleteBookByID",
-    "RelativePath": "api/Book/Delete-book/{bookId}",
+    "RelativePath": "api/Book/Admin/Delete-book/{bookId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -79,6 +79,37 @@
       {
         "Name": "BookId",
         "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "GetAllBooksLoaned",
+    "RelativePath": "api/Book/Admin/GetAllBooksLoaned",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "UpdateBookbyID",
+    "RelativePath": "api/Book/Admin/UpdateBook",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "bookDTO",
+        "Type": "bookShareBEnd.Database.DTO.BookDTO",
         "IsRequired": true
       }
     ],
@@ -102,16 +133,6 @@
   },
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
-    "Method": "GetAllBooks",
-    "RelativePath": "api/Book/Get-All-Books",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "GetBookByID",
     "RelativePath": "api/Book/Get-book-byId/{BookID}",
     "HttpMethod": "GET",
@@ -128,8 +149,8 @@
   },
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
-    "Method": "GetAllBooksLoaned",
-    "RelativePath": "api/Book/GetAllBooksLoaned",
+    "Method": "GetAllBooks",
+    "RelativePath": "api/Book/GetAllBooks",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -148,6 +169,22 @@
         "Name": "userId",
         "Type": "System.Guid",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "SearchBook",
+    "RelativePath": "api/Book/SearchBook",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchItem",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -175,21 +212,26 @@
   },
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
-    "Method": "UpdateBookbyID",
-    "RelativePath": "api/Book/Update-book",
-    "HttpMethod": "PUT",
+    "Method": "GetUserBooks",
+    "RelativePath": "api/Book/UserBooks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "UserDeleteBook",
+    "RelativePath": "api/Book/UserDeleteBook",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "bookId",
+        "Name": "BookId",
         "Type": "System.Guid",
         "IsRequired": false
-      },
-      {
-        "Name": "bookDTO",
-        "Type": "bookShareBEnd.Database.DTO.BookDTO",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []

@@ -2,13 +2,17 @@
 using bookShareBEnd.Database;
 using bookShareBEnd.Database.DTO;
 using bookShareBEnd.Database.Model;
+using bookShareBEnd.Database.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace bookShareBEnd.Services
 {
     public class Bookservices
     {
         private readonly AppDbContext _context;
+       
         private IMapper _mapper;
         private readonly TimeSpan _debounceDelay = TimeSpan.FromSeconds(1);
         private CancellationTokenSource _debounceCancellationTokenSource;
@@ -16,6 +20,7 @@ namespace bookShareBEnd.Services
         {
             _context = context;  
             _mapper = mapper;
+           
 
         }
         
@@ -91,6 +96,8 @@ namespace bookShareBEnd.Services
             await _context.SaveChangesAsync();
         }
 
+
+
         public async Task<BookDTO> SearchBook(string searchTerm)
         {
             try
@@ -132,8 +139,81 @@ namespace bookShareBEnd.Services
                 throw;
             }
         }
+        public async Task<List<BookDTO>> GetListUserBook(ClaimsPrincipal user)
+        {
+            var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming user ID is stored as a NameIdentifier claim
+            if (userIdString == null)
+            {
+                throw new Exception("User ID not found in claims.");
+            }
 
-     
+            if (!Guid.TryParse(userIdString, out Guid userId))
+            {
+                throw new Exception("Invalid user ID format.");
+            }
+
+            var userDB = await _context.users.FindAsync(userId);
+            if (userDB is null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            var userBooks = await _context.books
+                                          .Where(b => b.UserId == userId)
+                                          .Select(b => new BookDTO
+                                          {
+                                           
+                                              Title = b.Title,
+                                              Author = b.Author,
+                                              BookCity = b.bookCity,
+                                              Description = b.Description,
+                                              YearPublished = b.YearPublished,
+                                              Cover = b.Cover,
+                                              Category = b.Category,
+                                              Likes = b.Likes,
+
+                                          })
+                                          .ToListAsync();
+
+            return userBooks;
+        }
+
+        public async Task DeletebookUser(ClaimsPrincipal user, Guid idBook)
+        {
+            var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Get the user ID directly from the ClaimsPrincipal
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                throw new Exception("User ID not found in claims.");
+            }
+
+            if (!Guid.TryParse(userIdString, out Guid userId))
+            {
+                throw new Exception("Invalid user ID format.");
+            }
+
+            var userDB = await _context.users.FindAsync(userId);
+
+            if (userDB is null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            // Ensure that the book belongs to the user
+            var book = await _context.books.FirstOrDefaultAsync(b => b.Id == idBook && b.UserId == userId);
+
+            if (book == null)
+            {
+                throw new Exception("Book not found or doesn't belong to the user.");
+            }
+
+            // Delete the book from the database
+            _context.books.Remove(book);
+            await _context.SaveChangesAsync();
+        }
+
+
+
 
         public async Task<UserLoansDTO> GetUserLoans(Guid userId)
         {
@@ -168,15 +248,19 @@ namespace bookShareBEnd.Services
             await _context.SaveChangesAsync();
         }
 
-        public void DeleteBook(Guid bookId)
+        public async Task DeleteBook(Guid bookId)
         {
             var book = _context.books.FirstOrDefault(b=>b.Id == bookId);
-            if(book != null)
+            if(book == null)
             {
-                _context.books.Remove(book);
-                _context.SaveChanges();
+                throw new Exception("book doesn't exist");
             }
+            _context.books.Remove(book);
+            _context.SaveChanges();
         }
+
+
+
         private async Task<BookDTO> SearchBooksAsync(string searchTerm)
         {
             var searchIndb = _context.books.FirstOrDefault(b => b.Title.Contains(searchTerm) || b.Author.Contains(searchTerm));

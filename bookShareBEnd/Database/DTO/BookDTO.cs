@@ -12,6 +12,9 @@
 
         public string Cover { get; set; } = string.Empty;
 
+        public string? BookCity { get; set; }
+
+
         public string Description { get; set; }
         public string Category { get; set; }
 
