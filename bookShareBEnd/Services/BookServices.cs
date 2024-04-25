@@ -32,6 +32,26 @@ namespace bookShareBEnd.Services
             return booksDTOS;   
         }
 
+        public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
+        {
+            var pageSize = 15; 
+            var books = _context.books.AsQueryable();
+
+            
+            int itemsToSkip = (pageNumber - 1) * pageSize;
+
+            
+            var paginatedBooks = await books
+                                        .OrderBy(x => x.Id) 
+                                        .Skip(itemsToSkip)
+                                        .Take(pageSize)
+                                        .ToListAsync();
+
+            var paginatedBooksDTO = paginatedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
+
+            return paginatedBooksDTO;
+        }
+
         public async Task<BookDTO> GetBookById(Guid bookId) 
         {
            var book = await _context.books.FindAsync(bookId);
@@ -48,14 +68,17 @@ namespace bookShareBEnd.Services
         public BookDTO UpdateBookByID(Guid bookId,BookDTO book)
         {
             var _book = _context.books.FirstOrDefault(b => b.Id == bookId);
-            if (_book is not  null) 
+            if (_book is  null) 
             {
+                throw new Exception("Il Libro che Vuoi cancellare Non Esistente");
+            }
               _mapper.Map(book,_book);
                 _context.SaveChanges();
                 return _mapper.Map<BookDTO>(_book);
-            }
-            return null;
+           
         }
+
+       
 
         public async Task<List<BookLoanDTO>> GetAllLoansBook() // prendere tutti gli libri in prestita 
         {
@@ -94,6 +117,22 @@ namespace bookShareBEnd.Services
 
             // Save changes to the database
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<BookDTO>> Top10MostLikedBooks()
+        {
+            var top10LikedBooks = await _context.books
+                                                 .OrderByDescending(x => x.Likes)
+                                                 .Take(10)
+                                                 .ToListAsync();
+
+            var top10LikedBooksDTO = top10LikedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
+
+            if (top10LikedBooks is  null){
+                throw new Exception("Non ci sono libri con piu like");
+            }
+
+            return top10LikedBooksDTO;
         }
 
 
@@ -165,8 +204,9 @@ namespace bookShareBEnd.Services
                                            
                                               Title = b.Title,
                                               Author = b.Author,
-                                              BookCity = b.bookCity,
-                                              Description = b.Description,
+                                              //BookCity = b.bookCity,
+                                              ShortDescription = b.ShortDescription,
+                                              FullDescription = b.FullDescription,
                                               YearPublished = b.YearPublished,
                                               Cover = b.Cover,
                                               Category = b.Category,

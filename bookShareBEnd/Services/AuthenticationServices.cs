@@ -17,7 +17,7 @@ namespace bookShareBEnd.Services
             _configuration = configuration;
         }
 
-        public UserDTO Authentication(UserAuthDTO userLogin) 
+        public UserDTO Authentication(UserAuthDTOSimple userLogin) 
         {
             var cryptedPassword = BCrypt.Net.BCrypt.HashPassword(userLogin.Password);
             var user = _context.users.FirstOrDefault(u => u.Email == userLogin.Email);

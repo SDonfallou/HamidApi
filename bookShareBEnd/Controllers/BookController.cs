@@ -33,12 +33,19 @@ namespace bookShareBEnd.Controllers
             return Ok(allBooks);
         }
 
-        [HttpGet("Get-book-byId/{BookID}")]
+        [HttpGet("GetBookById/{BookID}")]
         [Authorize(Policy = "UserPolicy")]
         public IActionResult GetBookByID(Guid BookId)
         {
 
             var book = _bookservices.GetBookById(BookId);
+            return Ok(book);
+        }
+
+        [HttpGet("Top10MostLikedBooks")]
+        public async Task<IActionResult> Top10MostLikedBooks()
+        {
+            var book = _bookservices.Top10MostLikedBooks();
             return Ok(book);
         }
 
@@ -156,6 +163,14 @@ namespace bookShareBEnd.Controllers
         {
             await _bookservices.GetAllLoansBook();
             return Ok();
+        }
+
+        [HttpGet("books/{pageNumber}")]
+        [AllowAnonymous]
+        public  async Task<IActionResult> GetBooksPagined(int pageNumber)
+        {
+            var booksPagined = await _bookservices.GetBooksPagined(pageNumber);
+            return Ok(booksPagined);
         }
 
         [HttpPost("takeLoanBook{userId}")]

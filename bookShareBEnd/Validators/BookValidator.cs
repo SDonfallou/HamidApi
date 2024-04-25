@@ -28,9 +28,17 @@ namespace bookShareBEnd.Validators
             RuleFor(books => books.UserId)
                 .NotEmpty();
 
-            RuleFor(books => books.Description)
+            RuleFor(books => books.ShortDescription)
                 .NotEmpty()
-                .MaximumLength(500); // Assuming a maximum length for the description
+                .MaximumLength(200); // Assuming a maximum length for the description
+            RuleFor(books => books.FullDescription)
+                .NotEmpty()
+                .MaximumLength(10000);
+            RuleFor(books => books.Likes)
+                .NotEmpty()
+
+                .GreaterThan(0) // Assuming YearPublished cannot be negative
+                ;
         }
 
     }

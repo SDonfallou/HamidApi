@@ -38,13 +38,13 @@ namespace bookShareBEnd.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] UserAuthDTO loginDTO)
+        public IActionResult Login([FromBody] UserAuthDTOSimple loginDTO)
         {
             var user = _authenticationServices.Authentication(loginDTO);
             if (user is not  null) 
             {
               var token = _authenticationServices.Generate(user);
-                if (token is not null)
+                if (token is null)
                 {
                     throw new Exception("Not Valid Token ");
                 }
