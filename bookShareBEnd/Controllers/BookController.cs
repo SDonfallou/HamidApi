@@ -6,6 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -18,10 +19,11 @@ namespace bookShareBEnd.Controllers
        
         private Bookservices _bookservices;
         private IValidator<BookDTO> _validator;
+        private readonly UserManager<UserDTO> _userManager;
 
-        public BookController(Bookservices bookservices, IValidator<BookDTO> validator )
+        public BookController(Bookservices bookservices, IValidator<BookDTO> validator, UserManager<UserDTO> userManager)
         {
-            
+            _userManager = userManager;
             _bookservices=bookservices;
             _validator=validator;
         }
@@ -67,7 +69,7 @@ namespace bookShareBEnd.Controllers
 
         [HttpPut("Admin/UpdateBook")]
         [Authorize(Policy = "UserPolicy")]
-        public  IActionResult UpdateBookbyID(Guid bookId, [FromBody]BookDTO bookDTO)
+        public async Task <IActionResult> UpdateBookbyID(Guid bookId, [FromBody]BookDTO bookDTO)
         {
             var validationResult =  _validator.Validate(bookDTO);
                 if (!validationResult.IsValid)
@@ -75,12 +77,43 @@ namespace bookShareBEnd.Controllers
                 var errors = validationResult.Errors.Select(error => error.ErrorMessage);
                 return BadRequest(errors);
             }
-           var updatedbook= _bookservices.UpdateBookByID(bookId, bookDTO);
+           var updatedbook=   _bookservices.UpdateBookByID(bookId, bookDTO);
             return Ok(updatedbook);
         }
 
+        [HttpPost("like/{bookId}")]
+        public async Task<IActionResult> LikeBook(int bookId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            if (bookId == 0)
+            {
+                return BadRequest();
+            }
+           await _bookservices.likeBook(bookId);
+            return Ok();
+        }
 
-        [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
+        [HttpPost("unlike/{bookId}")]
+        public async Task<IActionResult> UnlikeBook(int bookId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            if(bookId == 0)
+            { 
+                return BadRequest();
+            }
+            await _bookservices.UnlikeBook(bookId);
+            return Ok();    
+        }
+
+            [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
         [Authorize(Policy = "UserPolicy")]
         public IActionResult AddOrUpdate(Guid? BookId, [FromBody]BookDTO book)
         {

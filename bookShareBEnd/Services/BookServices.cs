@@ -5,6 +5,7 @@ using bookShareBEnd.Database.Model;
 using bookShareBEnd.Database.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 
 namespace bookShareBEnd.Services
@@ -169,13 +170,41 @@ namespace bookShareBEnd.Services
             catch (TaskCanceledException)
             {
                 // The task was canceled due to debounce reset, return null
-                return null;
+                throw new Exception("The Book Sheared Doesn't exist");
             }
             catch (Exception ex)
             {
                 // Log or handle the exception appropriately
                 Console.WriteLine($"Error searching for book: {ex.Message}");
                 throw;
+            }
+        }
+
+        public async Task likeBook(int bookId)
+        {
+            var book = await _context.books.FindAsync(bookId);
+
+            if (book == null)
+            {
+                throw new Exception("book not Found");
+            }
+                book.Likes++;
+                await _context.SaveChangesAsync();
+
+        }
+
+        public async Task UnlikeBook(int bookId)
+        {
+            var book = await _context.books.FindAsync(bookId);
+            if (book == null)
+            {
+                throw new Exception("Book not found");
+            }
+
+            if (book != null && book.Likes > 0)
+            {
+                book.Likes--; 
+                await _context.SaveChangesAsync();
             }
         }
         public async Task<List<BookDTO>> GetListUserBook(ClaimsPrincipal user)
