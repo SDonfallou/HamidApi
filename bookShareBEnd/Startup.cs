@@ -1,8 +1,10 @@
-﻿using bookShareBEnd.Database;
+﻿using bookShareBEnd.ChatHub;
+using bookShareBEnd.Database;
 using bookShareBEnd.Services;
 using bookShareBEnd.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,6 +82,8 @@ namespace bookShareBEnd
             //services.AddTransient<RolesService>();
             services.AddScoped<AuthenticationServices>();
 
+            //Chat Hub
+            services.AddSignalR();
 
 
             // The Fluent Validator         
@@ -117,6 +121,13 @@ namespace bookShareBEnd
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat", options =>
+                {
+                    options.Transports =
+                        HttpTransportType.WebSockets | HttpTransportType.LongPolling;
+                    options.ApplicationMaxBufferSize = 64 * 1024;
+                    options.TransportMaxBufferSize = 32 * 1024;
+                });
             });
 
 

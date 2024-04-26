@@ -19,6 +19,8 @@
         public int Likes { get; set; }
         public int Pages { get; set; }
 
+        public string UserName {  get; set; }
+        public string City { get; set; }
         public Guid UserId { get; set; }
     }
 

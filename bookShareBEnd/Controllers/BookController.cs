@@ -12,6 +12,7 @@ using System.Security.Claims;
 
 namespace bookShareBEnd.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -47,7 +48,7 @@ namespace bookShareBEnd.Controllers
         [HttpGet("Top10MostLikedBooks")]
         public async Task<IActionResult> Top10MostLikedBooks()
         {
-            var book = _bookservices.Top10MostLikedBooks();
+            var book =await _bookservices.Top10MostLikedBooks();
             return Ok(book);
         }
 
@@ -178,7 +179,7 @@ namespace bookShareBEnd.Controllers
             return Ok();
         }
 
-
+        [AllowAnonymous]
         [HttpGet("SearchBook")]
         public async Task<IActionResult> SearchBook(string? searchItem)
         {
@@ -198,8 +199,8 @@ namespace bookShareBEnd.Controllers
             return Ok();
         }
 
-        [HttpGet("books/{pageNumber}")]
         [AllowAnonymous]
+        [HttpGet("books/{pageNumber}")]
         public  async Task<IActionResult> GetBooksPagined(int pageNumber)
         {
             var booksPagined = await _bookservices.GetBooksPagined(pageNumber);

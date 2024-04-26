@@ -24,16 +24,32 @@ namespace bookShareBEnd.Services
            
 
         }
-        
-        public   List<BookDTO> GetAllBooks()
-        {
-            var books =  _context.books.ToList();
-            var booksDTOS =  _mapper.Map<List<BookDTO>>(books);
-            
-            return booksDTOS;   
-        }
 
-        public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
+        public List<BookDTO> GetAllBooks() // da testare con Automapper
+        {
+            var books = (from book in _context.books
+                         join user in _context.users on book.UserId equals user.UserId
+                         select new BookDTO
+                         {
+                             Id = book.Id,
+                             Title = book.Title,
+                             Author = book.Author,
+                             YearPublished = book.YearPublished,
+                             Cover = book.Cover,
+                             ShortDescription = book.ShortDescription,
+                             Category = book.Category,
+                             FullDescription = book.FullDescription,
+                             Likes = book.Likes,
+                             Pages = book.Pages,
+                             UserName = user.Name, 
+                             City = user.City 
+                         }).ToList();
+
+            return books;
+        }
+    
+
+    public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
         {
             var pageSize = 15; 
             var books = _context.books.AsQueryable();
@@ -207,6 +223,9 @@ namespace bookShareBEnd.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+   
+
         public async Task<List<BookDTO>> GetListUserBook(ClaimsPrincipal user)
         {
             var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming user ID is stored as a NameIdentifier claim
