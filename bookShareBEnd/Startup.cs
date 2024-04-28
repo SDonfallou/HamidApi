@@ -1,5 +1,5 @@
-﻿using bookShareBEnd.ChatHub;
-using bookShareBEnd.Database;
+﻿using bookShareBEnd.Database;
+using bookShareBEnd.Database.DTO;
 using bookShareBEnd.Services;
 using bookShareBEnd.Validators;
 using FluentValidation;
@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -84,6 +83,11 @@ namespace bookShareBEnd
 
             //Chat Hub
             services.AddSignalR();
+
+            services.AddIdentity<UserDTO, IdentityRole>()
+                     .AddEntityFrameworkStores<AppDbContext>()
+                     .AddDefaultTokenProviders();
+
 
 
             // The Fluent Validator         

@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace bookShareBEnd.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -20,7 +20,7 @@ namespace bookShareBEnd.Controllers
        
         private Bookservices _bookservices;
         private IValidator<BookDTO> _validator;
-        private readonly UserManager<UserDTO> _userManager;
+        private  UserManager<UserDTO> _userManager;
 
         public BookController(Bookservices bookservices, IValidator<BookDTO> validator, UserManager<UserDTO> userManager)
         {
@@ -53,7 +53,7 @@ namespace bookShareBEnd.Controllers
         }
 
         [HttpPost("AddBook")]
-        [Authorize(Policy = "UserPolicy")]
+        //[Authorize(Policy = "UserPolicy")]
         public async  Task<IActionResult> AddBook([FromBody]BookDTO bookDTO)
         {
             var validationResult = await _validator.ValidateAsync(bookDTO);

@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "loginDTO",
-        "Type": "bookShareBEnd.Database.DTO.UserAuthDTO",
+        "Type": "bookShareBEnd.Database.DTO.UserAuthDTOSimple",
         "IsRequired": true
       }
     ],
@@ -117,6 +117,22 @@
   },
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "GetBooksPagined",
+    "RelativePath": "api/Book/books/{pageNumber}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "DeleteBookLoaned",
     "RelativePath": "api/Book/DeleteBookLoaned/{BookLoanedId}",
     "HttpMethod": "DELETE",
@@ -125,22 +141,6 @@
     "Parameters": [
       {
         "Name": "BookLoanedID",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "bookShareBEnd.Controllers.BookController",
-    "Method": "GetBookByID",
-    "RelativePath": "api/Book/Get-book-byId/{BookID}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "BookId",
         "Type": "System.Guid",
         "IsRequired": true
       }
@@ -159,6 +159,22 @@
   },
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "GetBookByID",
+    "RelativePath": "api/Book/GetBookById/{BookID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "BookId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "GetUserLoans",
     "RelativePath": "api/Book/GetUserLoans{userId}",
     "HttpMethod": "GET",
@@ -168,6 +184,22 @@
       {
         "Name": "userId",
         "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "LikeBook",
+    "RelativePath": "api/Book/like/{bookId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookId",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -206,6 +238,32 @@
         "Name": "BookId",
         "Type": "System.Guid",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "Top10MostLikedBooks",
+    "RelativePath": "api/Book/Top10MostLikedBooks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "UnlikeBook",
+    "RelativePath": "api/Book/unlike/{bookId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookId",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

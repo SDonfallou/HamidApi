@@ -27,22 +27,22 @@ namespace bookShareBEnd.Services
 
         public List<BookDTO> GetAllBooks() // da testare con Automapper
         {
-            var books = (from book in _context.books
-                         join user in _context.users on book.UserId equals user.UserId
+            var books = (from Books in _context.books
+                         join Users in _context.users on Books.UserId equals Users.UserId
                          select new BookDTO
                          {
-                             Id = book.Id,
-                             Title = book.Title,
-                             Author = book.Author,
-                             YearPublished = book.YearPublished,
-                             Cover = book.Cover,
-                             ShortDescription = book.ShortDescription,
-                             Category = book.Category,
-                             FullDescription = book.FullDescription,
-                             Likes = book.Likes,
-                             Pages = book.Pages,
-                             UserName = user.Name, 
-                             City = user.City 
+                             Id = Books.Id,
+                             Title = Books.Title,
+                             Author = Books.Author,
+                             YearPublished = Books.YearPublished,
+                             Cover = Books.Cover,
+                             //ShortDescription = book.ShortDescription,
+                             Category = Books.Category,
+                            // FullDescription = book.FullDescription,
+                             Likes = Books.Likes,
+                             //Pages = book.Pages,
+                             UserName = Users.Name, 
+                             City = Users.City 
                          }).ToList();
 
             return books;

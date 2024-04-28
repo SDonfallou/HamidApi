@@ -247,3 +247,6 @@ C:\Users\hamid\Source\Repos\HamidApi\bookShareBEnd\obj\Debug\net7.0\refint\bookS
 C:\Users\hamid\Source\Repos\HamidApi\bookShareBEnd\obj\Debug\net7.0\bookShareBEnd.pdb
 C:\Users\hamid\Source\Repos\HamidApi\bookShareBEnd\obj\Debug\net7.0\bookShareBEnd.genruntimeconfig.cache
 C:\Users\hamid\Source\Repos\HamidApi\bookShareBEnd\obj\Debug\net7.0\ref\bookShareBEnd.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

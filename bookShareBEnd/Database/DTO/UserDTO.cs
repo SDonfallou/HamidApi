@@ -1,8 +1,8 @@
-﻿using System.Globalization;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace bookShareBEnd.Database.DTO
 {
-    public class UserDTO
+    public class UserDTO : IdentityUser
     {
        // public Guid UserId { get; set; }
         public string Name { get; set; }
