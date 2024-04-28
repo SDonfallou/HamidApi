@@ -3,38 +3,23 @@
   "WorkspaceRootPath": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\services\\userservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\services\\userservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\littl\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\database\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\database\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\littl\\AppData\\Local\\Temp\\.vsdbgsrc\\87c4a10cf83f31332ff6e368c34e123f9da27283374af05805a2c48f42eaee81\\Bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\services\\userservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|solutionrelative:booksharebend\\services\\userservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DCA12993-1892-4928-8A79-04433280E78D}|bookShareBEnd\\bookShareBEnd.csproj|c:\\users\\littl\\desktop\\docs\\apikarch\\booksharebend\\booksharebend\\database\\model\\books.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -60,8 +45,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "bookShareBEnd\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Properties\\launchSettings.json",
+              "RelativeToolTip": "bookShareBEnd\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-28T10:05:58.927Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BookController.cs",
+              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Controllers\\BookController.cs",
+              "RelativeDocumentMoniker": "bookShareBEnd\\Controllers\\BookController.cs",
+              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Controllers\\BookController.cs",
+              "RelativeToolTip": "bookShareBEnd\\Controllers\\BookController.cs",
+              "ViewState": "AQIAAMUAAAAAAAAAAAAmwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T15:25:01.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BookServices.cs",
+              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\BookServices.cs",
+              "RelativeDocumentMoniker": "bookShareBEnd\\Services\\BookServices.cs",
+              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\BookServices.cs",
+              "RelativeToolTip": "bookShareBEnd\\Services\\BookServices.cs",
+              "ViewState": "AQIAAEAAAAAAAAAAAADwv18AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T15:24:23.776Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -69,6 +93,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
             },
             {
               "$type": "Bookmark",
@@ -80,20 +108,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "BookServices.cs",
               "DocumentMoniker": "C:\\Users\\littl\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs",
-              "ToolTip": "C:\\Users\\littl\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs [Read Only]",
-              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs [Read Only]",
+              "ToolTip": "C:\\Users\\littl\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\a096a6d3b3ad0fa5ac1bce098928a8a88fa9fd1e938a8afb1e236b6b4e428473\\bookShareBEnd\\Services\\BookServices.cs",
               "ViewState": "AQIAABIAAAAAAAAAAAArwBwAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-28T10:20:53.596Z",
-              "EditorCaption": " [Read Only]"
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "Books.cs",
               "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Database\\Model\\Books.cs",
               "RelativeDocumentMoniker": "bookShareBEnd\\Database\\Model\\Books.cs",
@@ -101,12 +129,11 @@
               "RelativeToolTip": "bookShareBEnd\\Database\\Model\\Books.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAAAkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-26T19:41:59.754Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-26T19:41:59.754Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 7,
               "Title": "ChatHub.cs",
               "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\ChatHub.cs",
               "RelativeDocumentMoniker": "bookShareBEnd\\ChatHub.cs",
@@ -114,116 +141,24 @@
               "RelativeToolTip": "bookShareBEnd\\ChatHub.cs",
               "ViewState": "AQIAABQAAAAAAAAAAAAAwDcAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-26T18:51:01.996Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-26T18:51:01.996Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Startup.cs",
-              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Startup.cs",
-              "RelativeDocumentMoniker": "bookShareBEnd\\Startup.cs",
-              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Startup.cs",
-              "RelativeToolTip": "bookShareBEnd\\Startup.cs",
-              "ViewState": "AQIAAFYAAAAAAAAAAAAQwFYAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-26T13:33:03.8Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserDTO.cs",
-              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Database\\DTO\\UserDTO.cs",
-              "RelativeDocumentMoniker": "bookShareBEnd\\Database\\DTO\\UserDTO.cs",
-              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Database\\DTO\\UserDTO.cs",
-              "RelativeToolTip": "bookShareBEnd\\Database\\DTO\\UserDTO.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAA2wAEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-26T12:40:21.308Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BookServices.cs",
-              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\BookServices.cs",
-              "RelativeDocumentMoniker": "bookShareBEnd\\Services\\BookServices.cs",
-              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\BookServices.cs",
-              "RelativeToolTip": "bookShareBEnd\\Services\\BookServices.cs",
-              "ViewState": "AQIAACUAAAAAAAAAAAArwDAAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T14:47:51.019Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BookController.cs",
-              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Controllers\\BookController.cs",
-              "RelativeDocumentMoniker": "bookShareBEnd\\Controllers\\BookController.cs",
-              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Controllers\\BookController.cs*",
-              "RelativeToolTip": "bookShareBEnd\\Controllers\\BookController.cs*",
-              "ViewState": "AQIAACwAAAAAAAAAAAAAwDcAAAAKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T15:11:30.656Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Bookservices.cs",
-              "DocumentMoniker": "C:\\Users\\littl\\AppData\\Local\\Temp\\.vsdbgsrc\\87c4a10cf83f31332ff6e368c34e123f9da27283374af05805a2c48f42eaee81\\Bookservices.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\87c4a10cf83f31332ff6e368c34e123f9da27283374af05805a2c48f42eaee81\\Bookservices.cs",
-              "ToolTip": "C:\\Users\\littl\\AppData\\Local\\Temp\\.vsdbgsrc\\87c4a10cf83f31332ff6e368c34e123f9da27283374af05805a2c48f42eaee81\\Bookservices.cs [Read Only]",
-              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\87c4a10cf83f31332ff6e368c34e123f9da27283374af05805a2c48f42eaee81\\Bookservices.cs [Read Only]",
-              "ViewState": "AQIAACAAAAAAAAAAAAArwCAAAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-28T09:41:40.121Z",
-              "EditorCaption": " [Read Only]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\appsettings.json",
-              "RelativeDocumentMoniker": "bookShareBEnd\\appsettings.json",
-              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\appsettings.json",
-              "RelativeToolTip": "bookShareBEnd\\appsettings.json",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAAAUAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-28T09:48:16.572Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "bookShareBEnd\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Properties\\launchSettings.json",
-              "RelativeToolTip": "bookShareBEnd\\Properties\\launchSettings.json",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-28T10:05:58.927Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 2,
               "Title": "UserServices.cs",
               "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\UserServices.cs",
               "RelativeDocumentMoniker": "bookShareBEnd\\Services\\UserServices.cs",
               "ToolTip": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\UserServices.cs",
               "RelativeToolTip": "bookShareBEnd\\Services\\UserServices.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAvwC0AAAANAAAA",
+              "ViewState": "AQIAAIcAAAAAAAAAAAAAwJsAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-25T14:54:18.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 8,
               "Title": "AuthenticationServices.cs",
               "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Services\\AuthenticationServices.cs",
               "RelativeDocumentMoniker": "bookShareBEnd\\Services\\AuthenticationServices.cs",
@@ -231,12 +166,11 @@
               "RelativeToolTip": "bookShareBEnd\\Services\\AuthenticationServices.cs",
               "ViewState": "AQIAABsAAAAAAAAAAAAYwDMAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T14:44:36.61Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-25T14:44:36.61Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 6,
               "Title": "BookDTO.cs",
               "DocumentMoniker": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\Database\\DTO\\BookDTO.cs",
               "RelativeDocumentMoniker": "bookShareBEnd\\Database\\DTO\\BookDTO.cs",
@@ -244,8 +178,7 @@
               "RelativeToolTip": "bookShareBEnd\\Database\\DTO\\BookDTO.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAYwBYAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T14:44:23.634Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-25T14:44:23.634Z"
             }
           ]
         }

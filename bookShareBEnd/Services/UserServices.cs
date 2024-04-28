@@ -13,10 +13,18 @@ namespace bookShareBEnd.Services
         private readonly IMapper _mapper;
         private readonly TimeSpan _debounceDelay = TimeSpan.FromSeconds(1);
         private CancellationTokenSource _debounceCancellationTokenSource;
-        public UsersServices(AppDbContext context, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UsersServices(AppDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public bool IsUserAuthenticated()
+        {
+            // Check if the current user is authenticated
+            return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
 
         public UserDTO UpdateUserById(Guid userId, [FromBody] UserAuthDTO user)

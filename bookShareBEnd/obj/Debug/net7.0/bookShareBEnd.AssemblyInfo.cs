@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bookShareBEnd")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10f59fc27b0d53c96a7a17b96f11e81b8815b6ba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8fd7b5043180cef9247d48305e341c8d1281f55")]
 [assembly: System.Reflection.AssemblyProductAttribute("bookShareBEnd")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bookShareBEnd")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

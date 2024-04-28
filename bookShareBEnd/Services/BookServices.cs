@@ -47,27 +47,53 @@ namespace bookShareBEnd.Services
 
             return books;
         }
-    
 
-    public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
+
+        //public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
+        //    {
+        //        var pageSize = 15; 
+        //        var books = _context.books.AsQueryable();
+
+
+        //        int itemsToSkip = (pageNumber - 1) * pageSize;
+
+
+        //        var paginatedBooks = await books
+        //                                    .OrderBy(x => x.Id) 
+        //                                    .Skip(itemsToSkip)
+        //                                    .Take(pageSize)
+        //                                    .ToListAsync();
+
+        //        var paginatedBooksDTO = paginatedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
+
+        //        return paginatedBooksDTO;
+        //    }
+        public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
         {
-            var pageSize = 15; 
-            var books = _context.books.AsQueryable();
+            var pageSize = 15;
+            var booksQuery = from book in _context.books
+                             join user in _context.users on book.UserId equals user.UserId
+                             select new BookDTO
+                             {
+                                 Id = book.Id,
+                                 Title = book.Title,
+                                 Author = book.Author,
+                                 YearPublished = book.YearPublished,
+                                 Cover = book.Cover,
+                                 Category = book.Category,
+                                 Likes = book.Likes,
+                                 UserName = user.Name,
+                                 City = user.City
+                             };
 
-            
-            int itemsToSkip = (pageNumber - 1) * pageSize;
-
-            
-            var paginatedBooks = await books
-                                        .OrderBy(x => x.Id) 
-                                        .Skip(itemsToSkip)
-                                        .Take(pageSize)
-                                        .ToListAsync();
-
-            var paginatedBooksDTO = paginatedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
+            var paginatedBooksDTO = await booksQuery.OrderBy(x => x.Id)
+                                                    .Skip((pageNumber - 1) * pageSize)
+                                                    .Take(pageSize)
+                                                    .ToListAsync();
 
             return paginatedBooksDTO;
         }
+
 
         public async Task<BookDTO> GetBookById(Guid bookId) 
         {
