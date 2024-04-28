@@ -73,7 +73,7 @@ namespace bookShareBEnd.Controllers
                 var userClaims = identity.Claims;
                 return new UserDTO
                 {
-                    Name = GetValueByClaimType(userClaims, ClaimTypes.NameIdentifier),
+                    Name = GetValueByClaimType(userClaims, ClaimTypes.Name),
                     Email = GetValueByClaimType(userClaims, ClaimTypes.Email),
                     RoleId = (Guid)GetRoleId(userClaims)
                 };
