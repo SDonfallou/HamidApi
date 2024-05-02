@@ -84,9 +84,9 @@ namespace bookShareBEnd
             //Chat Hub
             services.AddSignalR();
 
-            services.AddIdentity<UserDTO, IdentityRole>()
-                     .AddEntityFrameworkStores<AppDbContext>()
-                     .AddDefaultTokenProviders();
+            //services.AddIdentity<UserDTO, IdentityRole>()
+            //         .AddEntityFrameworkStores<AppDbContext>()
+            //         .AddDefaultTokenProviders();
 
 
 

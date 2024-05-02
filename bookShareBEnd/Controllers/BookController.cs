@@ -1,13 +1,12 @@
-﻿using bookShareBEnd.Database;
-using bookShareBEnd.Database.DTO;
-using bookShareBEnd.Database.Model;
+﻿using bookShareBEnd.Database.DTO;
+using bookShareBEnd.Database.Net;
 using bookShareBEnd.Services;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace bookShareBEnd.Controllers
@@ -20,11 +19,11 @@ namespace bookShareBEnd.Controllers
        
         private Bookservices _bookservices;
         private IValidator<BookDTO> _validator;
-        private  UserManager<UserDTO> _userManager;
+        //private  UserManager<UserDTO> _userManager;
 
-        public BookController(Bookservices bookservices, IValidator<BookDTO> validator, UserManager<UserDTO> userManager)
+        public BookController(Bookservices bookservices, IValidator<BookDTO> validator)
         {
-            _userManager = userManager;
+            //_userManager = userManager;
             _bookservices=bookservices;
             _validator=validator;
         }
@@ -36,8 +35,9 @@ namespace bookShareBEnd.Controllers
             return Ok(allBooks);
         }
 
-        [HttpGet("GetBookById/{BookID}")]
-        [Authorize(Policy = "UserPolicy")]
+        [HttpGet("GetBookById/{BookId}")]
+        // [Authorize(Policy = "UserPolicy")]
+        [AllowAnonymous]
         public IActionResult GetBookByID(Guid BookId)
         {
 
@@ -48,12 +48,20 @@ namespace bookShareBEnd.Controllers
         [HttpGet("Top10MostLikedBooks")]
         public async Task<IActionResult> Top10MostLikedBooks()
         {
-            var book =await _bookservices.Top10MostLikedBooks();
-            return Ok(book);
+            var books =await _bookservices.Top10MostLikedBooks();
+            return Ok(books);
+        }
+
+        [HttpGet("RecentBooksUploaded")]
+        public async Task<IActionResult> RecentBookUploaded()
+        {
+            var books = await _bookservices.GetLastBookUpload();
+            return Ok(books);
         }
 
         [HttpPost("AddBook")]
-        //[Authorize(Policy = "UserPolicy")]
+        [Authorize(Policy = "UserPolicy")]
+        [Authorize(Policy = "AdminPolicy")]
         public async  Task<IActionResult> AddBook([FromBody]BookDTO bookDTO)
         {
             var validationResult = await _validator.ValidateAsync(bookDTO);
@@ -83,30 +91,45 @@ namespace bookShareBEnd.Controllers
         }
 
         [HttpPost("like/{bookId}")]
-        public async Task<IActionResult> LikeBook(int bookId)
+        public async Task<IActionResult> LikeBook(Guid bookId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            // Check if the user is authenticated
+            //var user = await _userManager.GetUserAsync(User);
+            var user = HttpContext.User.Identity as ClaimsIdentity;
             if (user == null)
             {
-                return BadRequest();
+                return Unauthorized(); // Return 401 Unauthorized if the user is not authenticated
             }
-            if (bookId == 0)
+
+            // check if the bookid is valid
+            if (bookId == Guid.Empty)
             {
-                return BadRequest();
+                return BadRequest("invalid bookid"); // return 400 bad request if bookid is empty
             }
-           await _bookservices.likeBook(bookId);
-            return Ok();
+
+            // Call your service method to like the book
+            try
+            {
+                await _bookservices.LikeBook(bookId);
+                return Ok(); // Return 200 OK if the operation is successful
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while liking the book"); // Return 500 Internal Server Error if an exception occurs
+            }
         }
 
+
         [HttpPost("unlike/{bookId}")]
-        public async Task<IActionResult> UnlikeBook(int bookId)
+        public async Task<IActionResult> UnlikeBook(Guid bookId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = HttpContext.User.Identity as ClaimsIdentity;
             if (user == null)
             {
-                return BadRequest();
+                return Unauthorized(); // Return 401 Unauthorized if the user is not authenticated
             }
-            if(bookId == 0)
+            
+            if(bookId == Guid.Empty)
             { 
                 return BadRequest();
             }
@@ -114,7 +137,7 @@ namespace bookShareBEnd.Controllers
             return Ok();    
         }
 
-            [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
+        [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
         [Authorize(Policy = "UserPolicy")]
         public IActionResult AddOrUpdate(Guid? BookId, [FromBody]BookDTO book)
         {
@@ -151,21 +174,22 @@ namespace bookShareBEnd.Controllers
         [HttpGet("UserBooks")]
         public async Task<IActionResult> GetUserBooks()
         {
-            var user = HttpContext.User;
-            if (user == null)
+            var userId = HttpContext.GetIdFromToken();
+
+            if (userId == null || userId == Guid.Empty)
             {
-                throw new ArgumentNullException(nameof(user));
+                return BadRequest("Invalid or missing user ID in token.");
             }
-            var books = await _bookservices.GetListUserBook(user);
+
+            var books = await _bookservices.GetListUserBook(userId);
 
             if (books == null)
             {
-                throw new Exception("User doesn't have Book");
+                return NotFound("User doesn't have any books.");
             }
+
             return Ok(books);
-
         }
-
 
         [HttpDelete("UserDeleteBook")]
         public async Task<IActionResult> UserDeleteBook(Guid BookId)

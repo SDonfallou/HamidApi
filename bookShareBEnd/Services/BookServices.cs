@@ -6,6 +6,7 @@ using bookShareBEnd.Database.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace bookShareBEnd.Services
@@ -36,13 +37,15 @@ namespace bookShareBEnd.Services
                              Author = Books.Author,
                              YearPublished = Books.YearPublished,
                              Cover = Books.Cover,
-                             //ShortDescription = book.ShortDescription,
+                             ShortDescription = Books.ShortDescription,
                              Category = Books.Category,
-                            // FullDescription = book.FullDescription,
+                             FullDescription = Books.FullDescription,
                              Likes = Books.Likes,
-                             //Pages = book.Pages,
+                             Pages =Books.Pages,
                              UserName = Users.Name, 
-                             City = Users.City 
+                             City = Users.City,
+                             State = Users.State,
+                             DateAdded = Books.DateAdded,
                          }).ToList();
 
             return books;
@@ -79,11 +82,13 @@ namespace bookShareBEnd.Services
                                  Title = book.Title,
                                  Author = book.Author,
                                  YearPublished = book.YearPublished,
+                                 ShortDescription = book.ShortDescription,
+                                 FullDescription= book.FullDescription,
                                  Cover = book.Cover,
                                  Category = book.Category,
                                  Likes = book.Likes,
                                  UserName = user.Name,
-                                 City = user.City
+                                 
                              };
 
             var paginatedBooksDTO = await booksQuery.OrderBy(x => x.Id)
@@ -95,14 +100,64 @@ namespace bookShareBEnd.Services
         }
 
 
-        public async Task<BookDTO> GetBookById(Guid bookId) 
+        public async Task<BookDTO> GetBookById(Guid bookId)
         {
-           var book = await _context.books.FindAsync(bookId);
-            return _mapper.Map<BookDTO>(book);
+            var book = _context.books.FirstOrDefault(b => b.Id == bookId);
+            var userBook = _context.users.FirstOrDefault(u => u.UserId == book.UserId);
+
+            if (book == null)
+            {
+                // Log error instead of throwing exception
+               // _logger.LogError($"Book with ID {bookId} not found.");
+                return null; // Or throw an exception if desired
+            }
+
+            if (userBook == null)
+            {
+                // Log error instead of throwing exception
+                //_logger.LogError($"UserBook for book with ID {bookId} not found.");
+                return null; // Or throw an exception if desired
+            }
+
+            var bookDTO = new BookDTO
+            {
+                Title = book.Title,
+                Author = book.Author,
+                YearPublished = book.YearPublished,
+                Cover = book.Cover,
+                Category = book.Category,
+                ShortDescription = book.ShortDescription,
+                FullDescription = book.FullDescription,
+                Likes = book.Likes,
+               // UserName = userBook.Name,
+                //City = userBook.City,
+                //State = userBook.State,
+            };
+
+            return bookDTO;
+        }
+
+
+        public async Task<BookDTO> GetLastBookUpload()
+        {
+            // Define the maximum number of last books to retrieve
+            var MaxLastBookUploaded = 9;
+
+            // Query the database to retrieve the last uploaded books
+            var lastBooksUploaded = await _context.books
+                .OrderByDescending(x => x.DateAdded) // Order the books by DateAdded timestamp in descending order
+                .Take(MaxLastBookUploaded) // Take the top N books based on MaxLastBookUploaded
+                .ToListAsync();
+
+            // Convert the last book to BookDTO and return
+            var lastBookDTO = _mapper.Map<BookDTO>(lastBooksUploaded.FirstOrDefault()); // Assuming BookDTO is the DTO for Book
+
+            return lastBookDTO;
         }
 
         public void AddBook(BookDTO book)
         {
+            
             var _book = _mapper.Map<BookDTO, Books>(book);
             _context.books.Add(_book);
             _context.SaveChanges();
@@ -222,26 +277,27 @@ namespace bookShareBEnd.Services
             }
         }
 
-        public async Task likeBook(int bookId)
+        public async Task LikeBook(Guid bookId)
         {
-            var book = await _context.books.FindAsync(bookId);
+            var book = _context.books.FirstOrDefault(b => b.Id == bookId);
 
             if (book == null)
             {
-                throw new Exception("book not Found");
+                throw new Exception("Book not found");
             }
-                book.Likes++;
-                await _context.SaveChangesAsync();
 
+            book.Likes++;
+            await _context.SaveChangesAsync();
         }
 
-        public async Task UnlikeBook(int bookId)
+        public async Task UnlikeBook(Guid bookId)
         {
             var book = await _context.books.FindAsync(bookId);
             if (book == null)
             {
                 throw new Exception("Book not found");
             }
+
 
             if (book != null && book.Likes > 0)
             {
@@ -252,24 +308,26 @@ namespace bookShareBEnd.Services
 
    
 
-        public async Task<List<BookDTO>> GetListUserBook(ClaimsPrincipal user)
+        public async Task<List<BookDTO>> GetListUserBook(Guid userId)
         {
-            var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming user ID is stored as a NameIdentifier claim
-            if (userIdString == null)
+            // var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming user ID is stored as a NameIdentifier claim
+            var user = _context.users.FirstOrDefault(u => u.UserId == userId);
+
+            if (user is null)
             {
-                throw new Exception("User ID not found in claims.");
+                throw new Exception("User ID not found ");
             }
 
-            if (!Guid.TryParse(userIdString, out Guid userId))
-            {
-                throw new Exception("Invalid user ID format.");
-            }
+            //if (!Guid.TryParse(userIdString, out Guid userId))
+            //{
+            //    throw new Exception("Invalid user ID format.");
+            //}
 
-            var userDB = await _context.users.FindAsync(userId);
-            if (userDB is null)
-            {
-                throw new Exception("User doesn't exist");
-            }
+            //var userDB = await _context.users.FindAsync(userId);
+            //if (userDB is null)
+            //{
+            //    throw new Exception("User doesn't exist");
+            //}
 
             var userBooks = await _context.books
                                           .Where(b => b.UserId == userId)
@@ -277,8 +335,7 @@ namespace bookShareBEnd.Services
                                           {
                                            
                                               Title = b.Title,
-                                              Author = b.Author,
-                                              //BookCity = b.bookCity,
+                                              Author = b.Author,                                          
                                               ShortDescription = b.ShortDescription,
                                               FullDescription = b.FullDescription,
                                               YearPublished = b.YearPublished,

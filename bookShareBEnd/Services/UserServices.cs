@@ -13,19 +13,19 @@ namespace bookShareBEnd.Services
         private readonly IMapper _mapper;
         private readonly TimeSpan _debounceDelay = TimeSpan.FromSeconds(1);
         private CancellationTokenSource _debounceCancellationTokenSource;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public UsersServices(AppDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        ////private readonly IHttpContextAccessor _httpContextAccessor;
+        public UsersServices(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
         }
 
-        public bool IsUserAuthenticated()
-        {
-            // Check if the current user is authenticated
-            return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
-        }
+        //public bool IsUserAuthenticated()
+        //{
+        //    // Check if the current user is authenticated
+        //    return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+        //}
 
         public UserDTO UpdateUserById(Guid userId, [FromBody] UserAuthDTO user)
         {
@@ -104,6 +104,9 @@ namespace bookShareBEnd.Services
         {
             var _user = _mapper.Map<UserAuthDTO, Users>(user);
             var email = user.Email.Trim().ToLower();
+            var name = user.Name.Trim().ToLower();
+            var city = user.City.Trim().ToLower();
+            var state = user.State.Trim().ToLower();
 
             // Check if the email is already in use
             if (_context.users.Any(x => x.Email.Equals(email)))

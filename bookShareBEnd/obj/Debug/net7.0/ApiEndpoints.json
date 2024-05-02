@@ -160,7 +160,7 @@
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "GetBookByID",
-    "RelativePath": "api/Book/GetBookById/{BookID}",
+    "RelativePath": "api/Book/GetBookById/{BookId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -199,10 +199,20 @@
     "Parameters": [
       {
         "Name": "bookId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "bookShareBEnd.Controllers.BookController",
+    "Method": "RecentBookUploaded",
+    "RelativePath": "api/Book/RecentBooksUploaded",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -262,7 +272,7 @@
     "Parameters": [
       {
         "Name": "bookId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
