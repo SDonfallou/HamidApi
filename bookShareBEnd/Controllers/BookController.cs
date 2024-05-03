@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace bookShareBEnd.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -19,11 +19,10 @@ namespace bookShareBEnd.Controllers
        
         private Bookservices _bookservices;
         private IValidator<BookDTO> _validator;
-        //private  UserManager<UserDTO> _userManager;
+        
 
         public BookController(Bookservices bookservices, IValidator<BookDTO> validator)
         {
-            //_userManager = userManager;
             _bookservices=bookservices;
             _validator=validator;
         }
@@ -35,9 +34,9 @@ namespace bookShareBEnd.Controllers
             return Ok(allBooks);
         }
 
-        [HttpGet("GetBookById/{BookId}")]
-        // [Authorize(Policy = "UserPolicy")]
         [AllowAnonymous]
+        [HttpGet("GetBookById/{BookId}")]
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult GetBookByID(Guid BookId)
         {
 
@@ -64,6 +63,11 @@ namespace bookShareBEnd.Controllers
         [Authorize(Policy = "AdminPolicy")]
         public async  Task<IActionResult> AddBook([FromBody]BookDTO bookDTO)
         {
+            var user = HttpContext.GetIdFromToken();
+            if (user == null)
+            {
+                return Unauthorized();
+            }
             var validationResult = await _validator.ValidateAsync(bookDTO);
 
             if (!validationResult.IsValid)
@@ -86,16 +90,16 @@ namespace bookShareBEnd.Controllers
                 var errors = validationResult.Errors.Select(error => error.ErrorMessage);
                 return BadRequest(errors);
             }
-           var updatedbook=   _bookservices.UpdateBookByID(bookId, bookDTO);
+           var updatedbook =  _bookservices.UpdateBookByID(bookId, bookDTO);
             return Ok(updatedbook);
         }
 
         [HttpPost("like/{bookId}")]
         public async Task<IActionResult> LikeBook(Guid bookId)
         {
-            // Check if the user is authenticated
-            //var user = await _userManager.GetUserAsync(User);
-            var user = HttpContext.User.Identity as ClaimsIdentity;
+           
+            var user =  HttpContext.GetIdFromToken();
+                   
             if (user == null)
             {
                 return Unauthorized(); // Return 401 Unauthorized if the user is not authenticated
@@ -123,7 +127,7 @@ namespace bookShareBEnd.Controllers
         [HttpPost("unlike/{bookId}")]
         public async Task<IActionResult> UnlikeBook(Guid bookId)
         {
-            var user = HttpContext.User.Identity as ClaimsIdentity;
+            var user = HttpContext.GetIdFromToken();
             if (user == null)
             {
                 return Unauthorized(); // Return 401 Unauthorized if the user is not authenticated
@@ -137,8 +141,8 @@ namespace bookShareBEnd.Controllers
             return Ok();    
         }
 
-        [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
         [Authorize(Policy = "UserPolicy")]
+        [HttpPost("Admin/AddOrUpdate/{BookID}")] // Syncro with Add And Update Methode
         public IActionResult AddOrUpdate(Guid? BookId, [FromBody]BookDTO book)
         {
             if (!ModelState.IsValid)
@@ -174,6 +178,7 @@ namespace bookShareBEnd.Controllers
         [HttpGet("UserBooks")]
         public async Task<IActionResult> GetUserBooks()
         {
+
             var userId = HttpContext.GetIdFromToken();
 
             if (userId == null || userId == Guid.Empty)
@@ -194,7 +199,7 @@ namespace bookShareBEnd.Controllers
         [HttpDelete("UserDeleteBook")]
         public async Task<IActionResult> UserDeleteBook(Guid BookId)
         {
-            var user = HttpContext.User;
+            var user = HttpContext.GetIdFromToken();  
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
@@ -240,11 +245,7 @@ namespace bookShareBEnd.Controllers
             return Ok();
         }
 
-        [HttpGet("GetUserLoans{userId}")]
-        public async Task<IActionResult> GetUserLoans(Guid userId)
-        {
-            return null; //TODO
-        }
+        
 
 
         [HttpDelete("DeleteBookLoaned/{BookLoanedId}")]

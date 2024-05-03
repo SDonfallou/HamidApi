@@ -175,22 +175,6 @@
   },
   {
     "ContainingType": "bookShareBEnd.Controllers.BookController",
-    "Method": "GetUserLoans",
-    "RelativePath": "api/Book/GetUserLoans{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "bookShareBEnd.Controllers.BookController",
     "Method": "LikeBook",
     "RelativePath": "api/Book/like/{bookId}",
     "HttpMethod": "POST",

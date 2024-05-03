@@ -52,25 +52,6 @@ namespace bookShareBEnd.Services
         }
 
 
-        //public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
-        //    {
-        //        var pageSize = 15; 
-        //        var books = _context.books.AsQueryable();
-
-
-        //        int itemsToSkip = (pageNumber - 1) * pageSize;
-
-
-        //        var paginatedBooks = await books
-        //                                    .OrderBy(x => x.Id) 
-        //                                    .Skip(itemsToSkip)
-        //                                    .Take(pageSize)
-        //                                    .ToListAsync();
-
-        //        var paginatedBooksDTO = paginatedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
-
-        //        return paginatedBooksDTO;
-        //    }
         public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
         {
             var pageSize = 15;
@@ -88,6 +69,8 @@ namespace bookShareBEnd.Services
                                  Category = book.Category,
                                  Likes = book.Likes,
                                  UserName = user.Name,
+                                 City = user.City,
+                                 State = user.State
                                  
                              };
 
@@ -103,39 +86,29 @@ namespace bookShareBEnd.Services
         public async Task<BookDTO> GetBookById(Guid bookId)
         {
             var book = _context.books.FirstOrDefault(b => b.Id == bookId);
+
+            if (book == null) 
+            {
+                throw new Exception ("book not found");
+            }
+
             var userBook = _context.users.FirstOrDefault(u => u.UserId == book.UserId);
 
-            if (book == null)
+            if (userBook == null) 
             {
-                // Log error instead of throwing exception
-               // _logger.LogError($"Book with ID {bookId} not found.");
-                return null; // Or throw an exception if desired
+                throw new Exception("Owner book not found "); 
             }
 
-            if (userBook == null)
-            {
-                // Log error instead of throwing exception
-                //_logger.LogError($"UserBook for book with ID {bookId} not found.");
-                return null; // Or throw an exception if desired
-            }
+            var bookDTO = _mapper.Map<BookDTO>(book);
 
-            var bookDTO = new BookDTO
-            {
-                Title = book.Title,
-                Author = book.Author,
-                YearPublished = book.YearPublished,
-                Cover = book.Cover,
-                Category = book.Category,
-                ShortDescription = book.ShortDescription,
-                FullDescription = book.FullDescription,
-                Likes = book.Likes,
-               // UserName = userBook.Name,
-                //City = userBook.City,
-                //State = userBook.State,
-            };
+            // Set user-related properties
+            bookDTO.UserName = userBook.Name;
+            bookDTO.City = userBook.City;
+            bookDTO.State = userBook.State;
 
             return bookDTO;
         }
+
 
 
         public async Task<BookDTO> GetLastBookUpload()
@@ -308,26 +281,17 @@ namespace bookShareBEnd.Services
 
    
 
-        public async Task<List<BookDTO>> GetListUserBook(Guid userId)
+        public async Task<List<BookDTO>> GetListUserBook(Guid? userId)
         {
-            // var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming user ID is stored as a NameIdentifier claim
             var user = _context.users.FirstOrDefault(u => u.UserId == userId);
 
             if (user is null)
             {
                 throw new Exception("User ID not found ");
             }
+            
 
-            //if (!Guid.TryParse(userIdString, out Guid userId))
-            //{
-            //    throw new Exception("Invalid user ID format.");
-            //}
 
-            //var userDB = await _context.users.FindAsync(userId);
-            //if (userDB is null)
-            //{
-            //    throw new Exception("User doesn't exist");
-            //}
 
             var userBooks = await _context.books
                                           .Where(b => b.UserId == userId)
@@ -349,27 +313,13 @@ namespace bookShareBEnd.Services
             return userBooks;
         }
 
-        public async Task DeletebookUser(ClaimsPrincipal user, Guid idBook)
+        public async Task DeletebookUser(Guid? userId, Guid idBook)
         {
-            var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier); // Get the user ID directly from the ClaimsPrincipal
-
-            if (string.IsNullOrEmpty(userIdString))
+            var user = await _context.users.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (user is null)
             {
-                throw new Exception("User ID not found in claims.");
+                throw new Exception("User ID not found ");
             }
-
-            if (!Guid.TryParse(userIdString, out Guid userId))
-            {
-                throw new Exception("Invalid user ID format.");
-            }
-
-            var userDB = await _context.users.FindAsync(userId);
-
-            if (userDB is null)
-            {
-                throw new Exception("User doesn't exist");
-            }
-
             // Ensure that the book belongs to the user
             var book = await _context.books.FirstOrDefaultAsync(b => b.Id == idBook && b.UserId == userId);
 

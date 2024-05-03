@@ -12,10 +12,10 @@ namespace bookShareBEnd.Database.Net
 
         //public static Guid GetIdFromToken(this Microsoft.AspNetCore.Http.HttpContext httpContext)
         //{
-        //    return Guid.Parse(httpContext.User.GetPrimarySid());
+        //    return Guid.Parse(httpContext.User.GetNameIdentifier());
         //}
 
-        //public static string? GetPrimarySid(this ClaimsPrincipal? claimsPrincipal)
+        //public static string? GetNameIdentifier(this ClaimsPrincipal? claimsPrincipal)
         //{
         //    return claimsPrincipal?.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid")?.Value;
         //}
@@ -34,15 +34,31 @@ namespace bookShareBEnd.Database.Net
     }
     public static class HttpContextUtils
     {
-        public static Guid GetIdFromToken(this HttpContext httpContext)
+        public static Guid? GetIdFromToken(this HttpContext httpContext)
         {
-            return Guid.Parse(httpContext.User.GetPrimarySid()!);
+            var primarySid = httpContext.User.GetNameIdentifier(); 
+
+            if (!string.IsNullOrEmpty(primarySid))
+            {
+                if (Guid.TryParse(primarySid, out Guid id)) 
+                {
+                    return id; 
+                }
+                else
+                {
+                    // Log or handle the case where PrimarySid cannot be parsed into a GUID
+                }
+            }
+
+            return null; 
         }
 
-        public static string? GetPrimarySid(this ClaimsPrincipal? claimsPrincipal)
+        public static string? GetNameIdentifier(this ClaimsPrincipal? claimsPrincipal)
         {
-            return claimsPrincipal?.FindFirst(ClaimTypes.PrimarySid)?.Value;
+            return claimsPrincipal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }
+
+
 
 }

@@ -31,7 +31,8 @@ namespace bookShareBEnd.Services
             }
             UserDTO authentificedUser = new UserDTO
             {
-               
+                UserId= user.UserId,
+                RoleId = user.RoleId,
                 Name = user.Name,
                 Email = user.Email
             };
@@ -48,7 +49,7 @@ namespace bookShareBEnd.Services
 
             var claims = new[]
                           {
-                                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Assuming UserId is a Guid or an integer
+                                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()), // Assuming UserId is a Guid or an integer
                                 new Claim(ClaimTypes.Name, user.Name),
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Role, user.RoleId.ToString()), // Assuming RoleId is a Guid

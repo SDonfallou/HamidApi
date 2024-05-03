@@ -250,3 +250,9 @@ C:\Users\hamid\Source\Repos\HamidApi\bookShareBEnd\obj\Debug\net7.0\ref\bookShar
 C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
 C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\BouncyCastle.Cryptography.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\MailKit.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\MimeKit.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\System.Formats.Asn1.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\littl\Desktop\Docs\ApiKarch\bookShareBEnd\bookShareBEnd\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
