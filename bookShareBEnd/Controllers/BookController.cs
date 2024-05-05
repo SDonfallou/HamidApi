@@ -26,7 +26,7 @@ namespace bookShareBEnd.Controllers
             _bookservices=bookservices;
             _validator=validator;
         }
-
+        [AllowAnonymous]
         [HttpGet("GetAllBooks")]
         public IActionResult GetAllBooks()
         {
@@ -41,9 +41,9 @@ namespace bookShareBEnd.Controllers
         {
 
             var book = _bookservices.GetBookById(BookId);
-            return Ok(book);
+            return Ok(book.Result);
         }
-
+        
         [HttpGet("Top10MostLikedBooks")]
         public async Task<IActionResult> Top10MostLikedBooks()
         {
@@ -54,7 +54,7 @@ namespace bookShareBEnd.Controllers
         [HttpGet("RecentBooksUploaded")]
         public async Task<IActionResult> RecentBookUploaded()
         {
-            var books = await _bookservices.GetLastBookUpload();
+            var books = await _bookservices.GetLastBooksUploaded();
             return Ok(books);
         }
 
@@ -66,7 +66,7 @@ namespace bookShareBEnd.Controllers
             var user = HttpContext.GetIdFromToken();
             if (user == null)
             {
-                return Unauthorized();
+                return Unauthorized("non sei autorizzato");
             }
             var validationResult = await _validator.ValidateAsync(bookDTO);
 
@@ -80,7 +80,7 @@ namespace bookShareBEnd.Controllers
             return Ok("Book added successfully");
         }
 
-        [HttpPut("Admin/UpdateBook")]
+        [HttpPut("Admin/UpdateBook/{BookId}")]
         [Authorize(Policy = "UserPolicy")]
         public async Task <IActionResult> UpdateBookbyID(Guid bookId, [FromBody]BookDTO bookDTO)
         {
@@ -196,7 +196,7 @@ namespace bookShareBEnd.Controllers
             return Ok(books);
         }
 
-        [HttpDelete("UserDeleteBook")]
+        [HttpDelete("UserDeleteBook/{BookID}")]
         public async Task<IActionResult> UserDeleteBook(Guid BookId)
         {
             var user = HttpContext.GetIdFromToken();  

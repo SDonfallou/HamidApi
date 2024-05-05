@@ -111,22 +111,31 @@ namespace bookShareBEnd.Services
 
 
 
-        public async Task<BookDTO> GetLastBookUpload()
+        public async Task<List<BookDTO>> GetLastBooksUploaded()
         {
             // Define the maximum number of last books to retrieve
-            var MaxLastBookUploaded = 9;
+            var MaxLastBooksUploaded = 4;
 
             // Query the database to retrieve the last uploaded books
             var lastBooksUploaded = await _context.books
                 .OrderByDescending(x => x.DateAdded) // Order the books by DateAdded timestamp in descending order
-                .Take(MaxLastBookUploaded) // Take the top N books based on MaxLastBookUploaded
+                .Take(MaxLastBooksUploaded) // Take the top N books based on MaxLastBooksUploaded
                 .ToListAsync();
 
-            // Convert the last book to BookDTO and return
-            var lastBookDTO = _mapper.Map<BookDTO>(lastBooksUploaded.FirstOrDefault()); // Assuming BookDTO is the DTO for Book
+            // Convert the last books to BookDTO and return
+            var lastBooksDTO = lastBooksUploaded.Select(book =>
+            {
+                var bookDTO = _mapper.Map<BookDTO>(book); // Assuming BookDTO is the DTO for Book
+                var userBook = _context.users.FirstOrDefault(u => u.UserId == bookDTO.UserId);
+                bookDTO.UserName = userBook.Name;
+                bookDTO.City = userBook.City;
+                bookDTO.State = userBook.State;
+                return bookDTO;
+            }).ToList();
 
-            return lastBookDTO;
+            return lastBooksDTO;
         }
+
 
         public void AddBook(BookDTO book)
         {
@@ -194,7 +203,7 @@ namespace bookShareBEnd.Services
         {
             var top10LikedBooks = await _context.books
                                                  .OrderByDescending(x => x.Likes)
-                                                 .Take(10)
+                                                 .Take(4)
                                                  .ToListAsync();
 
             var top10LikedBooksDTO = top10LikedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
@@ -297,7 +306,7 @@ namespace bookShareBEnd.Services
                                           .Where(b => b.UserId == userId)
                                           .Select(b => new BookDTO
                                           {
-                                           
+                                              Id=b.Id,
                                               Title = b.Title,
                                               Author = b.Author,                                          
                                               ShortDescription = b.ShortDescription,
@@ -306,7 +315,7 @@ namespace bookShareBEnd.Services
                                               Cover = b.Cover,
                                               Category = b.Category,
                                               Likes = b.Likes,
-
+                                              DateAdded = b.DateAdded,
                                           })
                                           .ToListAsync();
 
