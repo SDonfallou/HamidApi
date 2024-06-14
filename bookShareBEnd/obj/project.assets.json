@@ -5578,19 +5578,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\littl\\.nuget\\packages\\": {}
+    "C:\\Users\\hamid\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\bookShareBEnd.csproj",
+      "projectUniqueName": "C:\\Users\\hamid\\Source\\Repos\\HamidApi\\bookShareBEnd\\bookShareBEnd.csproj",
       "projectName": "bookShareBEnd",
-      "projectPath": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\bookShareBEnd.csproj",
-      "packagesPath": "C:\\Users\\littl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\littl\\Desktop\\Docs\\ApiKarch\\bookShareBEnd\\bookShareBEnd\\obj\\",
+      "projectPath": "C:\\Users\\hamid\\Source\\Repos\\HamidApi\\bookShareBEnd\\bookShareBEnd.csproj",
+      "packagesPath": "C:\\Users\\hamid\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hamid\\Source\\Repos\\HamidApi\\bookShareBEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\littl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hamid\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5598,8 +5598,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.ariestech.it/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -5700,7 +5699,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

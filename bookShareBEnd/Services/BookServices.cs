@@ -26,7 +26,7 @@ namespace bookShareBEnd.Services
 
         }
 
-        public List<BookDTO> GetAllBooks() // da testare con Automapper
+        public List<BookDTO> GetAllBooks()
         {
             var books = (from Books in _context.books
                          join Users in _context.users on Books.UserId equals Users.UserId
@@ -54,7 +54,7 @@ namespace bookShareBEnd.Services
 
         public async Task<List<BookDTO>> GetBooksPagined(int pageNumber)
         {
-            var pageSize = 15;
+            var pageSize = 9;
             var booksQuery = from book in _context.books
                              join user in _context.users on book.UserId equals user.UserId
                              select new BookDTO
@@ -206,7 +206,14 @@ namespace bookShareBEnd.Services
                                                  .Take(4)
                                                  .ToListAsync();
 
-            var top10LikedBooksDTO = top10LikedBooks.Select(book => _mapper.Map<BookDTO>(book)).ToList();
+            var top10LikedBooksDTO = top10LikedBooks.Select(book => {
+                var bookDTO = _mapper.Map<BookDTO>(book); 
+                var userBook = _context.users.FirstOrDefault(u => u.UserId == bookDTO.UserId);
+                bookDTO.UserName = userBook.Name;
+                bookDTO.City = userBook.City;
+                bookDTO.State = userBook.State;
+                return bookDTO;
+            }).ToList();
 
             if (top10LikedBooks is  null){
                 throw new Exception("Non ci sono libri con piu like");
@@ -217,7 +224,7 @@ namespace bookShareBEnd.Services
 
 
 
-        public async Task<BookDTO> SearchBook(string searchTerm)
+        public async Task<List<BookDTO>> SearchBook(string searchTerm)
         {
             try
             {
@@ -231,33 +238,47 @@ namespace bookShareBEnd.Services
                 await Task.Delay(_debounceDelay, _debounceCancellationTokenSource.Token);
 
                 // Actual search logic here
-                var book = await SearchBooksAsync(searchTerm);
+                var books = await _context.books
+                                           .Where(book => book.Title.Contains(searchTerm))
+                                           .ToListAsync();
 
-                // If book is not found, return null
-                if (book == null) throw new Exception("User Doesn't Exist");
-                    
-                // Convert the Book entity to BookDTO
-                var bookDto = new BookDTO
+                // Convert the list of Book entities to a list of BookDTOs
+                var bookDtos = books.Select(book =>
                 {
-                    Title = book.Title,
-                    Author = book.Author,
-                    // Map other properties as needed
-                };
+                    var userBook = _context.users.FirstOrDefault(u => u.UserId == book.UserId);
 
-                return bookDto;
+                    return new BookDTO
+                    {
+                        Id = book.Id,
+                        Title = book.Title,
+                        Author = book.Author,
+                        ShortDescription = book.ShortDescription,
+                        FullDescription = book.FullDescription,
+                        YearPublished = book.YearPublished,
+                        Cover = book.Cover,
+                        Category = book.Category,
+                        Likes = book.Likes,
+                        DateAdded = book.DateAdded, // Assicurati di terminare correttamente questa riga
+                        UserName = userBook != null ? userBook.Name : null,
+                        City = userBook != null ? userBook.City : null,
+                        State = userBook != null ? userBook.State : null
+                    };
+                }).ToList();
+                return bookDtos;
             }
             catch (TaskCanceledException)
             {
                 // The task was canceled due to debounce reset, return null
-                throw new Exception("The Book Sheared Doesn't exist");
+                throw new Exception("The Book Search was canceled");
             }
             catch (Exception ex)
             {
                 // Log or handle the exception appropriately
-                Console.WriteLine($"Error searching for book: {ex.Message}");
+                Console.WriteLine($"Error searching for books: {ex.Message}");
                 throw;
             }
         }
+
 
         public async Task LikeBook(Guid bookId)
         {

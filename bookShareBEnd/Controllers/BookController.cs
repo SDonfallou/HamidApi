@@ -35,6 +35,7 @@ namespace bookShareBEnd.Controllers
         }
 
         [AllowAnonymous]
+
         [HttpGet("GetBookById/{BookId}")]
         [Authorize(Policy = "UserPolicy")]
         public IActionResult GetBookByID(Guid BookId)
@@ -57,17 +58,17 @@ namespace bookShareBEnd.Controllers
             var books = await _bookservices.GetLastBooksUploaded();
             return Ok(books);
         }
-
+        [AllowAnonymous]
         [HttpPost("AddBook")]
-        [Authorize(Policy = "UserPolicy")]
-        [Authorize(Policy = "AdminPolicy")]
+       // [Authorize(Policy = "UserPolicy")]
+       // [Authorize(Policy = "AdminPolicy")]
         public async  Task<IActionResult> AddBook([FromBody]BookDTO bookDTO)
         {
-            var user = HttpContext.GetIdFromToken();
+            /*var user = HttpContext.GetIdFromToken();
             if (user == null)
             {
                 return Unauthorized("non sei autorizzato");
-            }
+            }*/
             var validationResult = await _validator.ValidateAsync(bookDTO);
 
             if (!validationResult.IsValid)
@@ -76,12 +77,13 @@ namespace bookShareBEnd.Controllers
                 var errors = validationResult.Errors.Select(error => error.ErrorMessage);
                 return BadRequest(errors);
             }
+            bookDTO.DateAdded = DateTime.UtcNow;
             _bookservices.AddBook(bookDTO);
             return Ok("Book added successfully");
         }
 
         [HttpPut("Admin/UpdateBook/{BookId}")]
-        [Authorize(Policy = "UserPolicy")]
+        //[Authorize(Policy = "UserPolicy")]
         public async Task <IActionResult> UpdateBookbyID(Guid bookId, [FromBody]BookDTO bookDTO)
         {
             var validationResult =  _validator.Validate(bookDTO);
@@ -93,7 +95,7 @@ namespace bookShareBEnd.Controllers
            var updatedbook =  _bookservices.UpdateBookByID(bookId, bookDTO);
             return Ok(updatedbook);
         }
-
+        
         [HttpPost("like/{bookId}")]
         public async Task<IActionResult> LikeBook(Guid bookId)
         {
@@ -209,17 +211,23 @@ namespace bookShareBEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("SearchBook")]
+        [HttpGet("SearchBook/{searchItem}")]
         public async Task<IActionResult> SearchBook(string? searchItem)
         {
-            if (searchItem == null)
+            if (string.IsNullOrEmpty(searchItem))
             {
-                throw new ArgumentNullException(nameof(searchItem));
+                return BadRequest("Search term cannot be null or empty.");
             }
 
-            await _bookservices.SearchBook(searchItem);
-            return Ok();
+            var books = await _bookservices.SearchBook(searchItem);
+            if (books == null || books.Count == 0)
+            {
+                return NotFound("No books found.");
+            }
+
+            return Ok(books);
         }
+
 
         [HttpGet("Admin/GetAllBooksLoaned")]
         public async Task<IActionResult> GetAllBooksLoaned()

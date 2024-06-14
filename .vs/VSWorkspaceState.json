@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bookShareBEnd",
+    "\\bookShareBEnd\\Database",
+    "\\bookShareBEnd\\Database\\DTO",
+    "\\bookShareBEnd\\Services",
+    "\\bookShareBEnd\\Validators",
+    "\\ChattingBookShare"
+  ],
+  "SelectedNode": "\\bookShareBEnd\\Validators\\UserValidator.cs",
+  "PreviewInSolutionExplorer": false
+}

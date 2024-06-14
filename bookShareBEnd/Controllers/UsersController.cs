@@ -91,7 +91,7 @@ namespace bookShareBEnd.Controllers
             return Ok(user);
         }
 
-        [HttpPut("update-user-by-id/{userId}")] // posso anche cancellarlo
+        [HttpPut("update-user-by-id/{userId}")] 
         public async Task<IActionResult> UpdateUserByIdAsync(Guid userId, [FromBody] UserAuthDTO user)
         {
 
